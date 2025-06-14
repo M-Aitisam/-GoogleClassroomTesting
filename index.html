@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Classroom Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: white;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .stream-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .stream-post {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stream-post img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .upcoming p {
+            color: #707070;
+        }
+
+        /* From Uiverse.io by vikiWayne */
+        .button {
+            padding: 0.4rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: #2c9caf;
+            transition: all 1000ms;
+            font-size: 12px;
+            overflow: hidden;
+            outline: 2px solid #2c9caf;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+
+        }
+
+        button:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+            outline: 2px solid #70bdca;
+            box-shadow: 4px 5px 17px -4px #268391;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            left: -50px;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background-color: #2c9caf;
+            transform: skewX(45deg);
+            z-index: -1;
+            transition: width 1000ms;
+        }
+
+        button:hover::before {
+            width: 250%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+        <div class="container-fluid">
+            <!-- Brand and Toggler -->
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <span class="navbar navbar-toggler-icon" style="margin-right: 1rem;"> </span>
+                <img src="./images/classroom-icon.png" alt="Classroom Icon" style="height: 30px; margin-right: 8px;">
+                <span>Classroom</span>
+            </a>
+
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Items (on the right) -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
+                    <!-- Google Apps Grid Icon -->
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor"
+                                class="bi bi-grid-3x3-gap" viewBox="0 0 16 16">
+                                <path
+                                    d="M4 2v2H2V2zm1 12v-2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m5 10v-2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V7a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1m0-5V2a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1M9 2v2H7V2zm5 0v2h-2V2zM4 7v2H2V7zm5 0v2H7V7zm5 0h-2v2h2zM4 12v2H2v-2zm5 0v2H7v-2zm5 0v2h-2v-2zM12 1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm-1 6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm1 4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1z" />
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- User Profile Icon -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor"
+                                class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                <path fill-rule="evenodd"
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main Layout -->
+    <div class="container-fluid ">
+        <div class="row ">
+            <!-- Sidebar -->
+            <div class="col-lg-2 sidebar pt-3 ">
+                <ul class="nav flex-column">
+                    <!-- Home -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-house-door" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z" />
+                            </svg>
+                            <a class="nav-link ms-2 active" href="#">Home</a>
+                        </span>
+                    </li>
+                    <!-- Calendar -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24.5" height="21" fill="currentColor"
+                                class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>
+                            <a class="nav-link ms-2" href="#">Calendar</a>
+                        </span>
+                    </li>
+                    <div>
+                        <hr>
+                    </div>
+                    <!-- Enrolled -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                                class="bi bi-mortarboard" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z" />
+                                <path
+                                    d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z" />
+                            </svg>
+                            <a class="nav-link ms-2" href="#">Enrolled</a>
+                        </span>
+                    </li>
+                    <!-- To do -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor"
+                                class="bi bi-list-check" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M8.854 5.146a.5.5 0 1 1 .707.707l-2 2a.5.5 0 0 1-.707 0l-.646-.647a.5.5 0 1 1 .707-.707l.292.293 1.646-1.646zm0 5.708a.5.5 0 1 1 .707.707l-2 2a.5.5 0 0 1-.707 0l-.646-.647a.5.5 0 1 1 .707-.707l.292.293 1.646-1.646z" />
+                                <path fill-rule="evenodd"
+                                    d="M3 4.5a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.5-.5H3zm.5 1v6h7v-6h-7z" />
+                            </svg>
+                            <a class="nav-link ms-2" href="#">To do</a>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <div class="d-flex justify-content-center text-center align-items-center "
+                                style=" background-color:#1967D2;width: 30px; height: 30px; border-radius: 50%; "><span
+                                    class="text-white " style="font-weight: bold;">A</span></div>
+                            <a class="nav-link ms-2" href="#">Calculus</a>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <div class="d-flex justify-content-center text-center align-items-center "
+                                style=" background-color:#C26401;width: 30px; height: 30px; border-radius: 50%; "><span
+                                    class="text-white " style="font-weight: bold;">S</span></div>
+                            <a class="nav-link ms-2" href="#">Software Enginnering</a>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <div class="d-flex justify-content-center text-center align-items-center "
+                                style=" background-color:#d2d45f;width: 30px; height: 30px; border-radius: 50%; "><span
+                                    class="text-white " style="font-weight: bold;">D</span></div>
+                            <a class="nav-link ms-2" href="#">DSA</a>
+                        </span>
+                    </li>
+                    <div>
+                        <hr>
+                    </div>
+                    <!-- Archived Classes -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                class="bi bi-archive" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                            </svg>
+                            <a class="nav-link ms-2" href="#">Archived Classes</a>
+                        </span>
+                    </li>
+                    <!-- Settings -->
+                    <li class="nav-item">
+                        <span class="d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="26" height=26" fill="currentColor"
+                                class="bi bi-gear" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                <path
+                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                            </svg>
+                            <a class="nav-link ms-2" href="#">Settings</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+
+            <div class="col-lg-10 pt-3">
+
+                <nav class="navbar bg-body-tertiary">
+                    <div class="container-fluid" style="border-bottom: 1px solid rgb(206, 206, 206);">
+                        <div class="d-flex " style="gap: 2rem;">
+                            <div style="border-bottom: 4px solid  #377ad7;; padding: 0 0.2rem 1rem 1rem;  ">
+                                <a class="navbar-brand " style="color: #377ad7;">Stream</a>
+                            </div>
+                            <div>
+                                <a class="navbar-brand">Classroom</a>
+                            </div>
+                            <div>
+                                <a class="navbar-brand">People</a>
+                            </div>
+                        </div>
+                       
+                        <div style=" display: flex;  gap:0.5rem">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24.5" height="21" fill="currentColor"
+                                class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24.5" height="21" fill="currentColor"
+                                class="bi bi-boxes" viewBox="0 0 16 16">
+                                <path
+                                    d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
+                            </svg>
+                        </div>
+                    </div>
+                </nav>
+              
+                <div class="row" style="padding-left: 3rem;">
+
+                    <div class="col-lg-11">
+                        <!-- Class Header -->
+                        <div class="stream-section mb-4"
+                            style="background: url('./images/book-img.avif') no-repeat center center; background-size: cover; padding: 2rem; color: white; border-radius: 8px;">
+                            <div class="d-flex justify-content-between">
+
+                                <span></span> <button class="button">Customize</button>
+
+                            </div>
+                            <h2>Software Engineering - ADC</h2>
+                            <p>Announce something to your class</p>
+                        </div>
+
+
+                        <!-- Stream Posts -->
+                        <div class="row">
+                            <!-- Left section: Upcoming -->
+                            <div class="col-lg-3 col-md-12 mb-3">
+                                <div class="container p-3">
+                                    <h5>Upcoming</h5>
+                                    <p>Woohoo, no work due soon!</p>
+                                    <a href="#" class="btn btn-link">View all</a>
+                                </div>
+
+                                <div class="stream-post p-3">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="./images/lamborgani.jfif" alt="Profile"
+                                            class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                        <div class="ms-3">
+                                            <h6 class="mb-0">Aitisam Ahmed</h6>
+                                            <small>12 Sept</small>
+                                        </div>
+                                    </div>
+                                    <p>Posted Course Instructor Profile</p>
+                                </div>
+                            </div>
+
+                            <!-- Right section: Announcements and Posts -->
+                            <div class="col-lg-9 col-md-12">
+                                <!-- Post 1 -->
+                                <div class="stream-post p-3 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="./images/lamborgani.jfif" alt="Profile"
+                                            class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                        <div class="ms-3">
+                                            <h6 class="mb-0">Announce something to the class</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post 2 -->
+                                <div class="stream-post p-3 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="./images/lamborgani.jfif" alt="Profile"
+                                            class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                        <div class="ms-3">
+                                            <p class="mb-1">Posted a new material: Week 3: Lecture 4. Software Process
+                                                Models</p>
+                                            <small>29 Sept</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post 3 -->
+                                <div class="stream-post p-3 mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="./images/lamborgani.jfif" alt="Profile"
+                                            class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                        <div class="ms-3">
+                                            <p class="mb-1">Posted a new material: Week 2: Introduction to Software
+                                                Engineering</p>
+                                            <small>24 Sept</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Post 4 -->
+                                <div class="stream-post p-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="./images/lamborgani.jfif" alt="Profile"
+                                            class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
+                                        <div class="ms-3">
+                                            <p class="mb-1">Posted a new material: Week 1: Intro to Course</p>
+                                            <small>24 Sept</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
